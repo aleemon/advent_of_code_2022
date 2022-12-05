@@ -43,7 +43,7 @@ values <- data.frame(letter = c(letters, LETTERS), value = c(1:52))
 answer <- sum(match(matches, values$letter))
 
 
-##------  Input Data 1  -----
+##------  Input Data  -----
 
 #! Not sure why I can't just read it in natively?
 #read_lines("https://adventofcode.com/2022/day/3/input")
@@ -371,7 +371,9 @@ matches <- map2_chr(
 ## Compute the value of the matching characters
 values <- data.frame(letter = c(letters, LETTERS), value = c(1:52))
 
-answer <- sum(match(matches, values$letter))
+answer <- sum(match(matches, values$letter)) 
+#! This actually is lucky - match is just returning the row number
+  # Got lucky that the row number matches the correct letter value!
 
 #~ Gold star!
 
