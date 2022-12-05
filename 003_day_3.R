@@ -1,18 +1,18 @@
-##-----  Problem Overview  -----
-
-
-# String of lower + uppercase letters
-# 1. Halve the strings
-# 2. Find the matching letter (case sensitive) in both halves
-# 3. Sum the results based on priorities
-  # a-z = 1-26
-  #A-Z = 27-52
-
+##-----  Packages  -----
 
 library(tidyverse)
 
 
+
 ##-----  Problem 1 Sample Code  ----
+
+# Strings of lower + uppercase letters
+# 1. Halve the strings
+# 2. Find the matching letter (case sensitive) in both halves
+# 3. Sum the results based on priorities
+# a-z = 1-26
+#A-Z = 27-52
+
 
 sample <- c(
   "vJrwpWtwJgWrhcsFMMfFFhFp",
@@ -377,3 +377,55 @@ answer <- sum(match(matches, values$letter))
 
 
 ##-----  Problem 2 Sample Code  -----
+
+# Group each set of 3 strings
+# Find the matching letter between each of these strings
+# Sum the matches as per values previously defined
+
+## Split by groups of three
+groups <- split(sample, ceiling(seq_along(sample) / 3))
+
+## Find the intersection between the three vectors - basic form
+# Reduce(
+#   intersect,
+#   list(
+#     str_extract_all(groups[[1]][1], pattern = "[a-zA-Z]")[[1]],
+#     str_extract_all(groups[[1]][2], pattern = "[a-zA-Z]")[[1]],
+#     str_extract_all(groups[[1]][3], pattern = "[a-zA-Z]")[[1]]
+#     )
+# )
+
+matches <- map_chr(
+  seq(1:length(groups)),
+  function(x) Reduce(intersect, list(
+    str_extract_all(groups[[x]][1], pattern = "[a-zA-Z]")[[1]],
+    str_extract_all(groups[[x]][2], pattern = "[a-zA-Z]")[[1]],
+    str_extract_all(groups[[x]][3], pattern = "[a-zA-Z]")[[1]]
+  )
+  )
+)
+
+
+
+##-----  Problem 2 Solution  -----
+
+## Split by groups of three
+groups <- split(input_data$V1, ceiling(seq_along(input_data$V1) / 3))
+
+## Find the matches
+matches <- map_chr(
+  seq(1:length(groups)),
+  function(x) Reduce(intersect, list(
+    str_extract_all(groups[[x]][1], pattern = "[a-zA-Z]")[[1]],
+    str_extract_all(groups[[x]][2], pattern = "[a-zA-Z]")[[1]],
+    str_extract_all(groups[[x]][3], pattern = "[a-zA-Z]")[[1]]
+  )
+  )
+)
+
+## Compute the value of the matching characters
+values <- data.frame(letter = c(letters, LETTERS), value = c(1:52))
+
+answer <- sum(match(matches, values$letter))
+
+#! Gold star - done!
