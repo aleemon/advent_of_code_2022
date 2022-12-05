@@ -42,10 +42,8 @@ pairs$count <- case_when(
 ## Sum the count
 sum(pairs$count)
 
-#! Incorrect answer, too high
-  #~ Found an error - pairs row 434 = 2-18, 18-19
-
 ## Gold star solved
+
 
 ##-----  Problem Data  -----
 
@@ -1052,3 +1050,21 @@ datdata <- read_lines("71-71,42-72
 
 
 ##-----  Problem 2  -----
+
+# Now to find overlaps
+
+pairs$overlaps <- case_when(
+  pairs$V1 <= pairs$V1.1 & pairs$V2 >= pairs$V1.1 ~ 1,
+  pairs$V1 <= pairs$V2.1 & pairs$V2 >= pairs$V2.1 ~ 1,
+  pairs$V1.1 <= pairs$V1 & pairs$V2.1 >= pairs$V1 ~ 1,
+  pairs$V1.1 <= pairs$V2 & pairs$V2.1 >= pairs$V2 ~ 1,
+  TRUE ~ 0
+)
+
+sum(pairs$overlaps)
+
+## Solved, gold star
+
+
+
+
