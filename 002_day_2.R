@@ -2575,4 +2575,44 @@ sum(
 
 ##-----  Problem 2 Solution  -----
 
+# Second character now determines round outcome
 
+# X = lose = 0
+# Y = draw = 3
+# Z = win = 6
+
+# Calculation is the round outcome + correct choice to make that happen
+
+round_score <- data.frame(values = c("X", "Y", "Z"), score = c(0, 3, 6))
+
+plays <- data.frame(values = c("R", "P", "S"), score = c(1:3))
+
+
+input_data_df$round_score <- case_when(
+  input_data_df$player == "X" ~ 0,
+  input_data_df$player == "Y" ~ 3,
+  input_data_df$player == "Z" ~ 6
+)
+
+round_outcomes <- data.frame(
+  outcome = c("AX", "AY", "AZ", "BX", "BY", "BZ", "CX", "CY", "CZ"),
+  score = c(   3,    6,     0,    0,    3,    6,    6,    0,    3)
+)
+
+
+input_data_df$play_choice <- case_when(
+  input_data_df$round_score == 0 & input_data_df$elf == "A" ~ 3,
+  input_data_df$round_score == 3 & input_data_df$elf == "A" ~ 1,
+  input_data_df$round_score == 6 & input_data_df$elf == "A" ~ 2,
+  input_data_df$round_score == 0 & input_data_df$elf == "B" ~ 1,
+  input_data_df$round_score == 3 & input_data_df$elf == "B" ~ 2,
+  input_data_df$round_score == 6 & input_data_df$elf == "B" ~ 3,
+  input_data_df$round_score == 0 & input_data_df$elf == "C" ~ 2,
+  input_data_df$round_score == 3 & input_data_df$elf == "C" ~ 3,
+  input_data_df$round_score == 6 & input_data_df$elf == "C" ~ 1,
+)
+
+
+answer <- sum(input_data_df$play_choice + input_data_df$round_score)
+
+## Gold star
